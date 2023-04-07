@@ -1,0 +1,43 @@
+Server:
+    port: 8080
+Spring:
+    main:
+        web-application-type: servlet
+        allow-bean-definition-overriding: true
+    application:
+        name: transcenda
+    datasource:
+        password: ${AWS_DB_PASSWORD}
+        url: jdbc:postgresql://${AWS_DB_ENDPOINT}/transcendadb
+        username: ${AWS_DB_USERNAME}
+        driver-class-name: org.postgresql.Driver
+    jpa:
+            hibernate:
+                ddl-auto: create-drop
+            properties:
+                hibernate:
+                    dialect: org.hibernate.dialect.PostgreSQLDialect
+                    format_sql: true
+            show-sql: true
+    cloud:
+        aws:
+            region:
+                static: ${AWS_REGION}
+                auto: false
+            credentials:
+                access-key: ${AWS_SQS_ACCESS_KEY}
+                secret-key: ${AWS_SQS_SECRET_KEY}
+            end-point:
+                uri: ${AWS_SQS_ENDPOINT}
+
+sns:
+    topic: ${AWS_SNS_TOPIC_ARN}
+
+INIT_VECTOR_SPRING: ${INIT_VECTOR}
+AES_SECRET_KEY_SPRING: ${AES_SECRET_KEY}
+
+logging:
+    level:
+        com.project202223t2g1t1.transcenda.SqsSnsMessageObject: Error
+    file:
+        name: transcenda.log
